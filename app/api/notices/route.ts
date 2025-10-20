@@ -1,7 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
-import { NoticeRowData } from "@/types/notice";
+import { type INoticeRowData } from "@/entities/notice";
 
 // Google 서비스 계정 인증 설정
 const serviceAccountAuth = new JWT({
@@ -20,14 +20,14 @@ const SPREADSHEETS = {
     id: process.env.GOOGLE_SPREADSHEET_ID,
     title: "cieat",
   },
-  // 필요한 다른 공지사항 그룹 추가
+  // TODO:필요한 다른 공지사항 그룹 추가
 };
 
 // 캐시 설정 (30분)
 export const revalidate = 1800;
 
 /**
- * GET 요청 처리
+ * GET: 공지사항 데이터
  * 쿼리 파라미터:
  * - noticeGroup: 공지사항 종류 (sw-major, cieat 등)
  * - page: 페이지 번호 (기본값 1)
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     : Object.keys(SPREADSHEETS);
 
   // 모든 그룹의 데이터를 병합할 배열
-  let allData: NoticeRowData[] = [];
+  let allData: INoticeRowData[] = [];
 
   try {
     // 각 공지사항 그룹별로 데이터 수집
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
       const { id: SPREADSHEET_ID, title: SHEET_TITLE } = spreadsheetInfo;
       const doc = new GoogleSpreadsheet(
         SPREADSHEET_ID as string,
-        serviceAccountAuth
+        serviceAccountAuth,
       );
 
       try {
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
         }
 
         // 시트의 모든 행 데이터 가져오기
-        const rows = await sheet.getRows<NoticeRowData>();
+        const rows = await sheet.getRows<INoticeRowData>();
 
         // 데이터 변환 및 그룹 정보 추가
         return rows.map((row) => ({
@@ -131,13 +131,13 @@ export async function GET(request: NextRequest) {
       {
         status: 200,
         headers,
-      }
+      },
     );
   } catch (error) {
     console.error("공지사항 데이터 조회 중 오류 발생:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "알 수 없는 오류" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -153,6 +153,6 @@ export async function OPTIONS() {
         "Access-Control-Allow-Methods": "GET, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
       },
-    }
+    },
   );
 }
