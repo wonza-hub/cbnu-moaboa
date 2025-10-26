@@ -16,7 +16,7 @@ export default memo(function NoticeCard({
 }: {
   notice: INoticeRowData;
 }) {
-  const { openDrawer, setLoading, setError, setDrawerContent } =
+  const { openDrawer, setIsLoading, setError, setDrawerContent } =
     useNoticeDetailDrawerStore();
 
   const groupInfo = NOTICE_GROUPS[
@@ -34,7 +34,7 @@ export default memo(function NoticeCard({
 
     try {
       openDrawer();
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
 
       const response = await fetch(
