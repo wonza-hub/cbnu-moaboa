@@ -12,7 +12,7 @@ interface INoticeDetailDrawerStore {
   openDrawer: () => void;
   closeDrawer: () => void;
   setDrawerContent: (data: INoticeRowData | null) => void;
-  setLoading: (isLoading: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
 }
 /**
@@ -35,7 +35,7 @@ export const useNoticeDetailDrawerStore = create<INoticeDetailDrawerStore>(
       }),
     closeDrawer: () => set({ isOpen: false }),
     setDrawerContent: (data) => set({ drawerContent: data, isLoading: false }),
-    setLoading: (isLoading) => set({ isLoading }),
+    setIsLoading: (isLoading) => set({ isLoading }),
     setError: (error) => set({ error, isLoading: false }),
   }),
 );
