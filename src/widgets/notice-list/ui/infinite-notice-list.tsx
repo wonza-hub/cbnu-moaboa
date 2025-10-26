@@ -1,24 +1,21 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import {
   NoticeCard,
-  NoticeCardSkeleton,
   type IApiResponse,
   type INoticeRowData,
 } from "@/entities/notice";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 /**
- * WIDGET: 무한스크롤 공지사항
+ * WIDGET: 공지사항 목록
  */
 interface IInfiniteNoticesProps {
-  initialData: IApiResponse;
   selectedGroups: string[];
 }
 export default function InfiniteNoticeList({
-  initialData,
   selectedGroups,
 }: IInfiniteNoticesProps) {
   const { ref, inView } = useInView({
@@ -28,55 +25,38 @@ export default function InfiniteNoticeList({
 
   const queryKey = ["notices", { groups: selectedGroups }];
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteQuery<IApiResponse, Error>({
-    queryKey,
-    queryFn: async ({ pageParam }) => {
-      const page = typeof pageParam === "number" ? pageParam : 1;
-
-      const apiUrl = new URL(
-        `/api/notices`,
-        process.env.NEXT_PUBLIC_API_SERVER_URL || "http://localhost:3000",
-      );
-
-      // 쿼리 파라미터 추가
-      apiUrl.searchParams.set("page", page.toString());
-      apiUrl.searchParams.set("limit", "12"); // 한 페이지에 12개 표시
-
-      if (selectedGroups.length > 0) {
-        apiUrl.searchParams.set("noticeGroup", selectedGroups.join(","));
-      }
-
-      const response = await fetch(apiUrl.toString());
-
-      if (!response.ok) {
-        throw new Error(
-          `공지사항을 불러오는데 실패했습니다: ${response.status}`,
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useSuspenseInfiniteQuery<IApiResponse, Error>({
+      queryKey,
+      queryFn: async () => {
+        const apiUrl = new URL(
+          `/api/notices`,
+          process.env.NEXT_PUBLIC_API_SERVER_URL || "http://localhost:3000",
         );
-      }
 
-      return response.json();
-    },
-    getNextPageParam: (lastPage) => {
-      return lastPage.currentPage < lastPage.totalPages
-        ? lastPage.currentPage + 1
-        : undefined;
-    },
-    initialPageParam: 1,
-    initialData: {
-      pages: [initialData],
-      pageParams: [1],
-    },
-  });
+        // 선택된 그룹이 있으면 그룹 파라미터 추가
+        if (selectedGroups.length > 0) {
+          apiUrl.searchParams.set("noticeGroup", selectedGroups.join(","));
+        }
 
-  // 무한스크롤 트리거
+        const response = await fetch(apiUrl.toString());
+
+        if (!response.ok) {
+          throw new Error(
+            `공지사항을 불러오는데 실패했습니다: ${response.status}`,
+          );
+        }
+
+        return response.json();
+      },
+      getNextPageParam: (lastPage) => {
+        return lastPage.currentPage < lastPage.totalPages
+          ? lastPage.currentPage + 1
+          : undefined;
+      },
+      initialPageParam: 1,
+    });
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -85,28 +65,6 @@ export default function InfiniteNoticeList({
 
   // 모든 페이지의 공지사항 데이터 병합
   const allNotices = data?.pages.flatMap((page) => page.data || []) || [];
-
-  if (isLoading && allNotices.length === 0) {
-    return <NoticesLoading />;
-  }
-
-  if (isError) {
-    return (
-      <div className="rounded-lg bg-white p-8 text-center shadow">
-        <p className="mb-2 text-lg text-red-500">
-          {error instanceof Error
-            ? error.message
-            : "알 수 없는 오류가 발생했습니다."}
-        </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-        >
-          새로고침
-        </button>
-      </div>
-    );
-  }
 
   if (allNotices.length === 0) {
     return (
@@ -123,7 +81,9 @@ export default function InfiniteNoticeList({
       {/* 공지사항 목록 */}
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {allNotices.map((notice: INoticeRowData, index) => (
-          <NoticeCard key={`${notice.noticeId}-${index}`} notice={notice} />
+          <div key={`${notice.noticeId}-${index}`}>
+            <NoticeCard notice={notice} />
+          </div>
         ))}
       </div>
 
@@ -148,16 +108,5 @@ export default function InfiniteNoticeList({
         </div>
       )}
     </>
-  );
-}
-
-// 로딩 컴포넌트
-function NoticesLoading() {
-  return (
-    <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 6 }).map((_, index) => (
-        <NoticeCardSkeleton key={index} />
-      ))}
-    </div>
   );
 }
