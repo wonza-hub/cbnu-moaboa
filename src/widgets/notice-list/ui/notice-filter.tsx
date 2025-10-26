@@ -11,7 +11,7 @@ export default function NoticeFilter({
 }) {
   return (
     <div className="mb-6 rounded-lg bg-white p-4 shadow">
-      <h2 className="mb-3 text-lg font-medium text-gray-900">
+      <h2 className="mb-3 hidden text-lg font-medium text-gray-900">
         공지사항 그룹 필터
       </h2>
       <div className="flex flex-wrap gap-2">
