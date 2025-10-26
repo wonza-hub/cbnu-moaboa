@@ -70,7 +70,9 @@ export default function NoticeDetailDrawer() {
         {/* 공지사항 내용 */}
         <div className="flex-1 overflow-y-auto">
           <div className="mx-auto w-full max-w-4xl">
-            {drawerContent && (
+            {!drawerContent || isLoading ? (
+              <NoticeDetailSkeleton />
+            ) : (
               <>
                 <DrawerHeader className="sticky top-0 z-10 border-b bg-white pb-4">
                   <div className="mb-2 flex items-center justify-between">
@@ -108,57 +110,48 @@ export default function NoticeDetailDrawer() {
 
                 {/* 본문 내용 */}
                 <article className="p-6">
-                  {/* 로딩 중일 때 */}
-                  {isLoading ? (
-                    <div className="flex flex-1 items-center justify-center p-8">
-                      <NoticeDetailSkeleton />
-                    </div>
-                  ) : (
-                    <>
-                      <div className="prose mb-8 max-w-none">
-                        <div
-                          dangerouslySetInnerHTML={PARSE_UTILS.renderSafeHTML(
-                            drawerContent?.body,
-                          )}
-                          className="leading-relaxed text-gray-700"
+                  <div className="prose mb-8 max-w-none">
+                    <div
+                      dangerouslySetInnerHTML={PARSE_UTILS.renderSafeHTML(
+                        drawerContent?.body,
+                      )}
+                      className="leading-relaxed text-gray-700"
+                    />
+                  </div>
+
+                  {/* 이미지 처리 */}
+                  {drawerContent?.imageUrls && (
+                    <div className="mb-8">
+                      <h3 className="mb-4 hidden text-lg font-semibold">
+                        첨부 이미지
+                      </h3>
+                      <div className="relative aspect-video">
+                        <Image
+                          className="object-contain"
+                          src={drawerContent?.imageUrls}
+                          alt={`첨부 이미지`}
+                          width={800}
+                          height={600}
                         />
                       </div>
+                    </div>
+                  )}
 
-                      {/* 이미지 처리 */}
-                      {drawerContent?.imageUrls && (
-                        <div className="mb-8">
-                          <h3 className="mb-4 hidden text-lg font-semibold">
-                            첨부 이미지
-                          </h3>
-                          <div className="relative aspect-video">
-                            <Image
-                              className="object-contain"
-                              src={drawerContent?.imageUrls}
-                              alt={`첨부 이미지`}
-                              width={800}
-                              height={600}
-                            />
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 테이블 */}
-                      {drawerContent?.tables && (
-                        <div className="mb-8">
-                          <h3 className="mb-4 hidden text-lg font-semibold">
-                            첨부 표
-                          </h3>
-                          <div className="space-y-6">
-                            <div
-                              className="overflow-x-auto border"
-                              dangerouslySetInnerHTML={PARSE_UTILS.renderSafeHTML(
-                                drawerContent?.tables,
-                              )}
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </>
+                  {/* 테이블 */}
+                  {drawerContent?.tables && (
+                    <div className="mb-8">
+                      <h3 className="mb-4 hidden text-lg font-semibold">
+                        첨부 표
+                      </h3>
+                      <div className="space-y-6">
+                        <div
+                          className="overflow-x-auto border"
+                          dangerouslySetInnerHTML={PARSE_UTILS.renderSafeHTML(
+                            drawerContent?.tables,
+                          )}
+                        />
+                      </div>
+                    </div>
                   )}
                 </article>
               </>
