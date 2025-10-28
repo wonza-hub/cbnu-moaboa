@@ -80,9 +80,9 @@ export default memo(function NoticeCard({
           {notice.title}
         </h3>
 
-        <p className="mb-4 line-clamp-3 text-sm text-gray-600">
+        {/* <p className="mb-4 line-clamp-3 text-sm text-gray-600">
           {CLEAN_UTILS.cleanHtmlContent(notice.body)}
-        </p>
+        </p> */}
 
         <div className="flex items-center justify-between text-sm text-gray-500">
           <span>{DATE_UTILS.formatDate(notice.createdAt)}</span>
