@@ -33,9 +33,9 @@ export const revalidate = 1800;
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const noticeId = params.id;
+  const { id: noticeId } = await params;
 
   if (!noticeId) {
     return NextResponse.json(
