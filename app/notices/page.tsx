@@ -43,7 +43,9 @@ export default async function NoticesPage({
           </h1>
 
           {/* 그룹 필터 */}
-          <NoticeFilter selectedGroups={selectedGroups} />
+          <div className="sticky top-0 z-10 mb-6 bg-white">
+            <NoticeFilter selectedGroups={selectedGroups} />
+          </div>
 
           {/* 무한스크롤 공지사항 */}
           <Suspense
