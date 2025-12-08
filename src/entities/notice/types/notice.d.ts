@@ -5,7 +5,7 @@ export interface INoticeRowData {
   title: string;
   category: string;
   body: string;
-  imageUrls: string;
+  imageUrls: string[];
   tables: string;
 }
 
