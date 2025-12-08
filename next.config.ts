@@ -6,14 +6,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**/*.cbnu.ac.kr",
+        hostname: "**",
       },
       {
-        protocol: "https",
-        hostname: "**/*.chungbuk.ac.kr",
-      },
-      {
-        protocol: "https",
+        protocol: "http",
         hostname: "**",
       },
     ],
