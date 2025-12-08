@@ -37,9 +37,7 @@ export default memo(function NoticeCard({
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_SERVER_URL || "http://localhost:3000"}/api/notices/${notice.noticeId}`,
-      );
+      const response = await fetch(`/api/notices/${notice.noticeId}`);
 
       if (!response.ok) {
         throw new Error(

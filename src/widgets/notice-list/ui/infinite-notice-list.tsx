@@ -29,20 +29,19 @@ export default function InfiniteNoticeList({
     useSuspenseInfiniteQuery<IApiResponse, Error>({
       queryKey,
       queryFn: async ({ pageParam }) => {
-        const apiUrl = new URL(
-          `/api/notices`,
-          process.env.NEXT_PUBLIC_API_SERVER_URL || "http://localhost:3000",
-        );
+        // API Routes를 위한 상대 경로 사용
+        const params = new URLSearchParams();
 
         // 페이지 파라미터 추가
-        apiUrl.searchParams.set("page", String(pageParam));
+        params.set("page", String(pageParam));
 
         // 선택된 그룹이 있으면 그룹 파라미터 추가
         if (selectedGroups.length > 0) {
-          apiUrl.searchParams.set("noticeGroup", selectedGroups.join(","));
+          params.set("noticeGroup", selectedGroups.join(","));
         }
 
-        const response = await fetch(apiUrl.toString());
+        const apiUrl = `/api/notices?${params.toString()}`;
+        const response = await fetch(apiUrl);
 
         if (!response.ok) {
           throw new Error(
