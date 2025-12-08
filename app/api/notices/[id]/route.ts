@@ -70,8 +70,13 @@ export async function GET(
         // ID로 공지사항 찾기
         const notice = rows.find((row) => row.get("noticeId") === noticeId);
 
+        // 공지사항을 찾았을 때 반환
         if (notice) {
-          // 공지사항을 찾았을 때 반환
+          const imageUrlsJSON = notice.get("imageUrls");
+          const imageUrls: string[] = imageUrlsJSON
+            ? JSON.parse(imageUrlsJSON)
+            : [];
+
           const noticeData: INoticeRowData = {
             noticeId: notice.get("noticeId"),
             createdAt: notice.get("createdAt"),
@@ -79,7 +84,7 @@ export async function GET(
             title: notice.get("title"),
             category: notice.get("category"),
             body: notice.get("body"),
-            imageUrls: notice.get("imageUrls"),
+            imageUrls,
             tables: notice.get("tables"),
           };
 

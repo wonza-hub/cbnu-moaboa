@@ -80,16 +80,23 @@ export async function GET(request: NextRequest) {
         const rows = await sheet.getRows<INoticeRowData>();
 
         // 데이터 변환 및 그룹 정보 추가
-        return rows.map((row) => ({
-          noticeId: row.get("noticeId"),
-          createdAt: row.get("createdAt"),
-          noticeGroup: group, // 실제 그룹 이름 사용
-          title: row.get("title"),
-          category: row.get("category"),
-          body: row.get("body"),
-          imageUrls: row.get("imageUrls"),
-          tables: row.get("tables"),
-        }));
+        return rows.map((row) => {
+          const imageUrlsJSON = row.get("imageUrls");
+          const imageUrls: string[] = imageUrlsJSON
+            ? JSON.parse(imageUrlsJSON)
+            : [];
+
+          return {
+            noticeId: row.get("noticeId"),
+            createdAt: row.get("createdAt"),
+            noticeGroup: group, // 실제 그룹 이름 사용
+            title: row.get("title"),
+            category: row.get("category"),
+            body: row.get("body"),
+            imageUrls,
+            tables: row.get("tables"),
+          };
+        });
       } catch (error) {
         console.error(`${group} 그룹 데이터 조회 중 오류:`, error);
         return [];
