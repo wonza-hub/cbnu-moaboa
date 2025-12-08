@@ -125,15 +125,17 @@ export default function NoticeDetailDrawer() {
                       <h3 className="mb-4 hidden text-lg font-semibold">
                         첨부 이미지
                       </h3>
-                      <div className="relative aspect-video">
-                        <Image
-                          className="object-contain"
-                          src={drawerContent?.imageUrls}
-                          alt={`첨부 이미지`}
-                          width={800}
-                          height={600}
-                        />
-                      </div>
+                      {drawerContent?.imageUrls.map((url, idx) => (
+                        <div key={idx} className="relative aspect-video">
+                          <Image
+                            className="object-contain"
+                            src={url}
+                            alt={`첨부 이미지`}
+                            width={800}
+                            height={600}
+                          />
+                        </div>
+                      ))}
                     </div>
                   )}
 
