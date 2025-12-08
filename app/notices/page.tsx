@@ -22,13 +22,11 @@ export default async function NoticesPage({
   searchParams: Promise<{ noticeGroup?: string; openNotice?: string }>;
 }) {
   const resolvedParams = await searchParams;
-
-  // 쿼리 파라미터 추출
   const noticeGroupParam = resolvedParams.noticeGroup;
 
   // 선택된 공지사항 그룹 배열로 변환
   const selectedGroups =
-    typeof noticeGroupParam === "string"
+    typeof noticeGroupParam === "string" && noticeGroupParam !== ""
       ? noticeGroupParam.split(",")
       : Array.isArray(noticeGroupParam)
         ? noticeGroupParam
