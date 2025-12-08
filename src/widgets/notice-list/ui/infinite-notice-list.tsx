@@ -28,11 +28,14 @@ export default function InfiniteNoticeList({
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery<IApiResponse, Error>({
       queryKey,
-      queryFn: async () => {
+      queryFn: async ({ pageParam }) => {
         const apiUrl = new URL(
           `/api/notices`,
           process.env.NEXT_PUBLIC_API_SERVER_URL || "http://localhost:3000",
         );
+
+        // 페이지 파라미터 추가
+        apiUrl.searchParams.set("page", String(pageParam));
 
         // 선택된 그룹이 있으면 그룹 파라미터 추가
         if (selectedGroups.length > 0) {
