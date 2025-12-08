@@ -1,11 +1,11 @@
 // 공지사항 그룹 정보
 export const NOTICE_GROUPS = {
   "sw-major": {
-    name: "SW중심대학",
+    name: "소프트웨어학과",
     color: "bg-blue-100 text-blue-800 border-blue-200",
   },
   cieat: {
-    name: "산학협력단",
+    name: "씨앗",
     color: "bg-green-100 text-green-800 border-green-200",
   },
   // 필요한 다른 그룹 추가
