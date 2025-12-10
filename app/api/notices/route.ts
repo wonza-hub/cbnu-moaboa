@@ -4,9 +4,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { type INoticeRowData } from "@/entities/notice";
 
 // Google 서비스 계정 인증 설정
+const getPrivateKey = () => {
+  const key = process.env.GOOGLE_PRIVATE_KEY;
+  if (!key) {
+    throw new Error("GOOGLE_PRIVATE_KEY 환경 변수가 설정되지 않았습니다.");
+  }
+
+  // Base64로 인코딩된 경우 디코딩
+  if (key.startsWith("LS0t")) {
+    // Base64로 인코딩된 "-----"의 시작
+    return Buffer.from(key, "base64").toString("utf8");
+  }
+
+  // 일반 문자열인 경우 개행 문자 처리
+  return key.replace(/\\n/g, "\n");
+};
 const serviceAccountAuth = new JWT({
   email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  key: (process.env.GOOGLE_PRIVATE_KEY as string).replace(/\\n/g, "\n"),
+  key: getPrivateKey(),
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
