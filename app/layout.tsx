@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "충북대학교 통합 공지사항",
   description: "충북대학교 통합 공지사항",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
