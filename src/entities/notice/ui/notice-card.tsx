@@ -4,7 +4,6 @@ import {
   CATEGORY_COLORS,
 } from "@/entities/notice";
 import { DATE_UTILS } from "@/shared/utils/date";
-import { CLEAN_UTILS } from "@/shared/utils/clean";
 import { useNoticeDetailDrawerStore } from "@/shared/stores/use-notice-detail-drawer-store";
 import { memo } from "react";
 
@@ -37,7 +36,9 @@ export default memo(function NoticeCard({
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/notices/${notice.noticeId}`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/notices/${notice.noticeId}`,
+      );
 
       if (!response.ok) {
         throw new Error(

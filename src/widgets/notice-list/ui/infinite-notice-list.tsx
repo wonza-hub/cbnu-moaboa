@@ -40,7 +40,7 @@ export default function InfiniteNoticeList({
           params.set("noticeGroup", selectedGroups.join(","));
         }
 
-        const apiUrl = `/api/notices?${params.toString()}`;
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/notices?${params.toString()}`;
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
