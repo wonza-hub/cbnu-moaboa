@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -18,19 +16,37 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure (FSD Architecture)
 
-## Learn More
+This project follows the **Feature-Sliced Design (FSD)** architecture adapted for **Next.js App Router**.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+cbnu-moaboa/
+├── app/                        # Next.js App Router (Routing Layer)
+│
+├── src/
+│   ├── applications/           # App Configuration (FSD App Layer)
+│   │   ├── providers/          # Global Providers (React Query, etc.)
+│   │   └── styles/             # Global Styles
+│   │
+│   ├── widgets/                # Composition Layer (Complex UI Blocks)
+│   │   └── notice-list/        # e.g. Notice List Widget
+│   │
+│   ├── features/               # User Interaction Layer
+│   │   └── (user-actions)      # Search, Filter, Auth, etc.
+│   │
+│   ├── entities/               # Business Domain Layer
+│   │   └── notice/             # Notice Entity
+│   │       ├── model/          # Types, Stores
+│   │       ├── lib/            # Constants
+│   │       └── ui/             # Domain UI (NoticeCard)
+│   │
+│   └── shared/                 # Reusable Primitives
+│       ├── api/                # API Clients
+│       ├── components/         # UI Kit (Atomic Components)
+│       ├── hooks/              # Shared Hooks
+│       ├── lib/                # Utilities
+│       └── stores/             # Global Stores
+│
+└── public/                     # Static Assets
+```
