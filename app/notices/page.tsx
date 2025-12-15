@@ -4,7 +4,6 @@ import { NoticeDetailDrawer } from "@/widgets/notice-detail";
 import { Suspense } from "react";
 import { NoticeCardSkeleton } from "@/entities/notice";
 
-// METADATA
 export const metadata: Metadata = {
   title: "충북대학교 통합 공지사항",
   description: "충북대학교의 다양한 공지사항을 한 곳에서 확인하세요.",
@@ -15,7 +14,6 @@ export const metadata: Metadata = {
   },
 };
 
-// PAGE: 공지사항 목록
 export default async function NoticesPage({
   searchParams,
 }: {
@@ -24,13 +22,9 @@ export default async function NoticesPage({
   const resolvedParams = await searchParams;
   const noticeGroupParam = resolvedParams.noticeGroup;
 
-  // 선택된 공지사항 그룹 배열로 변환
-  const selectedGroups =
-    typeof noticeGroupParam === "string" && noticeGroupParam !== ""
-      ? noticeGroupParam.split(",")
-      : Array.isArray(noticeGroupParam)
-        ? noticeGroupParam
-        : [];
+  // 단일 공지사항 그룹 선택 (문자열 또는 undefined)
+  const selectedGroup =
+    typeof noticeGroupParam === "string" ? noticeGroupParam : undefined;
 
   return (
     <>
@@ -41,8 +35,8 @@ export default async function NoticesPage({
           </h1>
 
           {/* 그룹 필터 */}
-          <div className="sticky top-0 z-10 mb-6 bg-white">
-            <NoticeFilter selectedGroups={selectedGroups} />
+          <div className="sticky top-0 z-10 mb-6">
+            <NoticeFilter selectedGroup={selectedGroup} />
           </div>
 
           {/* 무한스크롤 공지사항 */}
@@ -55,7 +49,7 @@ export default async function NoticesPage({
               </div>
             }
           >
-            <InfiniteNoticeList selectedGroups={selectedGroups} />
+            <InfiniteNoticeList selectedGroup={selectedGroup} />
           </Suspense>
         </main>
       </div>

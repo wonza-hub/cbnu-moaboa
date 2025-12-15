@@ -58,7 +58,7 @@ export default memo(function NoticeCard({
 
   return (
     <div
-      className="cursor-pointer overflow-hidden rounded-lg bg-white shadow transition-shadow hover:shadow-md"
+      className="glass-card cursor-pointer overflow-hidden rounded-lg"
       onClick={handleClick}
     >
       <div className="p-5">
@@ -78,10 +78,6 @@ export default memo(function NoticeCard({
         <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900">
           {notice.title}
         </h3>
-
-        {/* <p className="mb-4 line-clamp-3 text-sm text-gray-600">
-          {CLEAN_UTILS.cleanHtmlContent(notice.body)}
-        </p> */}
 
         <div className="flex items-center justify-between text-sm text-gray-500">
           <span>{DATE_UTILS.formatDate(notice.createdAt)}</span>

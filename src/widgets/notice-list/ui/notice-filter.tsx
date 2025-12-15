@@ -5,9 +5,9 @@ import { NOTICE_GROUPS } from "@/entities/notice";
  * COMPONENT: 공지사항 그룹 필터
  */
 export default function NoticeFilter({
-  selectedGroups,
+  selectedGroup,
 }: {
-  selectedGroups: string[];
+  selectedGroup?: string;
 }) {
   return (
     <div className="mb-6 rounded-lg bg-white p-4 shadow">
@@ -18,7 +18,7 @@ export default function NoticeFilter({
         <Link
           href="/notices"
           className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
-            selectedGroups.length === 0
+            !selectedGroup
               ? "border-indigo-200 bg-indigo-100 text-indigo-800"
               : "border-gray-200 bg-gray-100 text-gray-800 hover:bg-gray-200"
           }`}
@@ -29,13 +29,11 @@ export default function NoticeFilter({
         {Object.entries(NOTICE_GROUPS).map(([id, { name, color }]) => (
           <Link
             key={id}
-            href={`/notices?noticeGroup=${
-              selectedGroups.includes(id)
-                ? selectedGroups.filter((g) => g !== id).join(",")
-                : [...selectedGroups, id].join(",")
-            }`}
+            href={
+              selectedGroup === id ? "/notices" : `/notices?noticeGroup=${id}`
+            }
             className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
-              selectedGroups.includes(id)
+              selectedGroup === id
                 ? color
                 : "border-gray-200 bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}

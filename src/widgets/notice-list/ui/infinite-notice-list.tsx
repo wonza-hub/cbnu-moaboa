@@ -13,17 +13,17 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
  * WIDGET: 공지사항 목록
  */
 interface IInfiniteNoticesProps {
-  selectedGroups: string[];
+  selectedGroup?: string;
 }
 export default function InfiniteNoticeList({
-  selectedGroups,
+  selectedGroup,
 }: IInfiniteNoticesProps) {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
   });
 
-  const queryKey = ["notices", { groups: selectedGroups }];
+  const queryKey = ["notices", { group: selectedGroup }];
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery<IApiResponse, Error>({
@@ -36,8 +36,8 @@ export default function InfiniteNoticeList({
         params.set("page", String(pageParam));
 
         // 선택된 그룹이 있으면 그룹 파라미터 추가
-        if (selectedGroups.length > 0) {
-          params.set("noticeGroup", selectedGroups.join(","));
+        if (selectedGroup) {
+          params.set("noticeGroup", selectedGroup);
         }
 
         const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/notices?${params.toString()}`;
@@ -70,7 +70,7 @@ export default function InfiniteNoticeList({
 
   if (allNotices.length === 0) {
     return (
-      <div className="rounded-lg bg-white p-8 text-center shadow">
+      <div className="glass-card rounded-lg p-8 text-center">
         <p className="text-lg text-gray-500">
           공지사항이 없습니다. 다른 필터를 선택해보세요.
         </p>
