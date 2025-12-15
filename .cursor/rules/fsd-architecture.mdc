@@ -1,0 +1,79 @@
+---
+description: Next.js 16 App Router와 FSD(Feature-Sliced Design) 아키텍처 규칙
+globs: **/*.{ts,tsx,js,jsx}
+---
+
+# Project Architecture: Next.js + FSD
+
+이 프로젝트는 **Next.js 16 (App Router)** 기반 위에 **FSD (Feature-Sliced Design)** 아키텍처를 적용하고 있습니다.
+
+## FSD 계층 구조 (Layers)
+
+프로젝트는 다음 계층 순서(위에서 아래로 의존성 허용)를 엄격히 따릅니다.
+상위 계층은 하위 계층을 import할 수 있지만, **하위 계층이 상위 계층을 import하는 것은 금지**됩니다.
+
+1. **app/** (Next.js Root)
+   - 라우팅, 레이아웃, 메타데이터 정의 등 프레임워크 레벨의 진입점.
+2. **src/applications/** (FSD App Layer)
+   - 전역 프로바이더(Providers), 전역 스타일(Global Styles), 초기화 로직.
+   - _Note: Next.js의 `app` 디렉토리와 충돌을 피하기 위해 `applications`로 명명._
+3. **src/widgets/**
+   - 페이지를 구성하는 독립적인 UI 블록 (예: Header, Footer, NoticeList).
+   - `entities`와 `features`를 조합하여 구성.
+4. **src/features/**
+   - 사용자 상호작용 기능 (예: 검색, 필터링, 좋아요, 인증).
+   - 비즈니스 가치를 전달하는 사용자 시나리오 처리.
+5. **src/entities/**
+   - 비즈니스 도메인 모델 (예: Notice, User).
+   - 데이터 타입, 상태 관리(Store), 데이터 페칭 로직 포함.
+6. **src/shared/**
+   - 특정 도메인에 종속되지 않는 재사용 가능한 컴포넌트, 유틸리티, API 클라이언트.
+
+---
+
+## Next App Router에서 FSD 방식 적용 시 참고할 사항
+
+Next.js의 **App Router(`app/`)**는 파일 시스템 기반 라우팅을 담당하며, FSD의 **Pages** 계층 역할을 대체하거나 얇은 래퍼(Wrapper) 역할만 수행해야 합니다.
+
+- **app/ (Next.js Routing Layer)**
+  - `page.tsx`: 실제 로직을 담지 않고, `src/widgets`나 `src/features`의 컴포넌트를 조립하여 페이지를 구성.
+  - `layout.tsx`: 전역 레이아웃 및 `src/applications/providers` 호출.
+  - `api/`: API Routes 정의 (BFF 또는 Proxy 역할).
+- **src/ (Business Logic & UI)**
+  - 모든 비즈니스 로직과 UI 컴포넌트는 이곳에 위치.
+  - `features`와 `entities`는 도메인별로 `ui`, `model`, `lib`, `api` 폴더로 세분화.
+
+### FSD 구조 시각화 예시
+
+- **app/** (Next.js Entry)
+  - `layout.tsx` <!-- RootLayout: Providers 주입 -->
+  - `page.tsx` <!-- MainPage: Widget 조합 -->
+  - `notices/page.tsx` <!-- NoticePage -->
+- **src/applications/** (Config)
+  - `providers/` <!-- React Query, Theme Provider 등 -->
+  - `styles/` <!-- globals.css -->
+- **src/widgets/** (Composition)
+  - `notice-list/` <!-- 공지사항 목록 위젯 -->
+    - `ui/`
+      - `infinite-notice-list.tsx` <!-- Entities의 Card와 Features의 Filter 조합 -->
+- **src/features/** (Actions)
+  - CRUD 중 CUD에 해당하는 기능을 포함
+- **src/entities/** (Domain)
+  - `notice/` <!-- 공지사항 도메인 -->
+    - `ui/` <!-- NoticeCard -->
+    - `model/` <!-- Types, Store -->
+    - `lib/` <!-- Constants -->
+- **src/shared/** (Common)
+  - `api/` <!-- Axios, Fetch wrapper -->
+  - `ui/` <!-- Atomic Components (Button, Input) -->
+  - `lib/` <!-- Utils (Date format 등) -->
+
+## 코딩 규칙 (Conventions)
+
+- **경로 별칭 (Path Alias):** `@/`는 `src/` 또는 프로젝트 루트를 가리키도록 설정 (`tsconfig.json` 확인).
+- **컴포넌트:**
+  - `page.tsx`는 항상 `export default` 사용.
+  - 일반 컴포넌트는 Named Export 권장.
+- **클라이언트/서버 컴포넌트:**
+  - 상호작용(Hooks 사용)이 필요한 컴포넌트 최상단에 `'use client'` 명시.
+  - 가능한 한 Leaf Node(말단 컴포넌트)에서 `'use client'`를 사용하여 서버 사이드 렌더링 이점 유지.
