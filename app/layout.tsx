@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/applications/styles/globals.css";
 import ReactQueryProvider from "@/applications/providers/react-query-provider";
@@ -14,6 +14,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title: "충북대학교 통합 공지사항",
   description: "충북대학교 통합 공지사항",
@@ -28,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased pb-20`}
+        className={`${geistSans.variable} ${geistMono.variable} pb-20 antialiased`}
       >
         <ReactQueryProvider>
           {children}
