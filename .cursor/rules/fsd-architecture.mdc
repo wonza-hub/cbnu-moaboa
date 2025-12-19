@@ -1,6 +1,5 @@
 ---
-description: Next.js 16 App Router와 FSD(Feature-Sliced Design) 아키텍처 규칙
-globs: **/*.{ts,tsx,js,jsx}
+alwaysApply: true
 ---
 
 # Project Architecture: Next.js + FSD
@@ -37,6 +36,7 @@ Next.js의 **App Router(`app/`)**는 파일 시스템 기반 라우팅을 담당
 
 - **app/ (Next.js Routing Layer)**
   - `page.tsx`: 실제 로직을 담지 않고, `src/widgets`나 `src/features`의 컴포넌트를 조립하여 페이지를 구성.
+    - Page에 해당하는 컴포넌트명은 항상 Page로 명명할 것.
   - `layout.tsx`: 전역 레이아웃 및 `src/applications/providers` 호출.
   - `api/`: API Routes 정의 (BFF 또는 Proxy 역할).
 - **src/ (Business Logic & UI)**
@@ -65,8 +65,9 @@ Next.js의 **App Router(`app/`)**는 파일 시스템 기반 라우팅을 담당
     - `lib/` <!-- Constants -->
 - **src/shared/** (Common)
   - `api/` <!-- Axios, Fetch wrapper -->
-  - `ui/` <!-- Atomic Components (Button, Input) -->
+  - `ui/` <!-- Atomic Components (Button, Input), ShadcnUI의 컴포넌트들이 위치함 -->
   - `lib/` <!-- Utils (Date format 등) -->
+    - `supabase/` <!-- supabase 세팅, api, 테이블 관리-->
 
 ## 코딩 규칙 (Conventions)
 
