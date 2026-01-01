@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { NoticeFilter, InfiniteNoticeList } from "@/widgets/notice-list";
-import { NoticeDetailDrawer } from "@/widgets/notice-detail";
 import { Suspense } from "react";
 import { NoticeCardSkeleton } from "@/entities/notice";
 
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function NoticesPage({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ noticeGroup?: string; openNotice?: string }>;
@@ -53,9 +52,6 @@ export default async function NoticesPage({
           </Suspense>
         </main>
       </div>
-
-      {/* 공지사항 상세 Drawer */}
-      <NoticeDetailDrawer />
     </>
   );
 }

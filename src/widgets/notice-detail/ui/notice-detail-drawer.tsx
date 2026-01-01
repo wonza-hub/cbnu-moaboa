@@ -103,7 +103,7 @@ export default function NoticeDetailDrawer() {
                   </div>
 
                   {/* 제목 */}
-                  <div className="mt-2 text-2xl font-bold">
+                  <div className="mt-2 text-lg font-semibold">
                     {drawerContent?.title}
                   </div>
                 </DrawerHeader>

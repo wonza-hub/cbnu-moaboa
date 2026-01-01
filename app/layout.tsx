@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/applications/styles/globals.css";
 import ReactQueryProvider from "@/applications/providers/react-query-provider";
 import { BottomNavigation } from "@/widgets/bottom-navigation";
+import { NoticeDetailDrawer } from "@/widgets/notice-detail";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,9 @@ export default function RootLayout({
         <ReactQueryProvider>
           {children}
           <BottomNavigation />
+
+          {/* 공지사항 상세 Drawer */}
+          <NoticeDetailDrawer />
         </ReactQueryProvider>
       </body>
     </html>
