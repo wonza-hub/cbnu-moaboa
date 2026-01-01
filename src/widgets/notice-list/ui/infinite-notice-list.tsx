@@ -7,6 +7,7 @@ import {
   type IApiResponse,
   type INoticeRowData,
 } from "@/entities/notice";
+import { ToggleBookmarkButton } from "@/features/bookmark";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 /**
@@ -84,7 +85,10 @@ export default function InfiniteNoticeList({
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {allNotices.map((notice: INoticeRowData, index) => (
           <div key={`${notice.noticeId}-${index}`}>
-            <NoticeCard notice={notice} />
+            <NoticeCard
+              notice={notice}
+              actionSlot={<ToggleBookmarkButton notice={notice} />}
+            />
           </div>
         ))}
       </div>

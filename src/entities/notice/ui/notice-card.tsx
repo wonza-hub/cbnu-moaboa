@@ -12,8 +12,10 @@ import { memo } from "react";
  */
 export default memo(function NoticeCard({
   notice,
+  actionSlot,
 }: {
   notice: INoticeRowData;
+  actionSlot?: React.ReactNode;
 }) {
   const { openDrawer, setIsLoading, setError, setDrawerContent } =
     useNoticeDetailDrawerStore();
@@ -63,16 +65,19 @@ export default memo(function NoticeCard({
     >
       <div className="p-5">
         <div className="mb-3 flex items-start justify-between">
-          <span
-            className={`rounded-full px-2 py-1 text-xs font-medium ${groupInfo.color}`}
-          >
-            {groupInfo.name}
-          </span>
-          <span
-            className={`rounded-full px-2 py-1 text-xs font-medium ${categoryColor}`}
-          >
-            {notice.category}
-          </span>
+          <div className="flex gap-2">
+            <span
+              className={`rounded-full px-2 py-1 text-xs font-medium ${groupInfo.color}`}
+            >
+              {groupInfo.name}
+            </span>
+            <span
+              className={`rounded-full px-2 py-1 text-xs font-medium ${categoryColor}`}
+            >
+              {notice.category}
+            </span>
+          </div>
+          {actionSlot && <div className="z-10">{actionSlot}</div>}
         </div>
 
         <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900">
