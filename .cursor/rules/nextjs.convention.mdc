@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+
+# Next.js (App Router)
+
+## 파일명/변수명
+
+- 파일명은 기본적으로 'kebab-case'를 사용해야 한다.
+- page.jsx(tsx)의 경우, 컴포넌트명은 ExamplePage와 같이 복합명사가 아닌 무조건 Page로 명명한다.

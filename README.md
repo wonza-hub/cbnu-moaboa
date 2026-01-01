@@ -50,3 +50,7 @@ cbnu-moaboa/
 │
 └── public/                     # Static Assets
 ```
+
+## AI 에이전트 활용
+
+### 커서룰 세분화
