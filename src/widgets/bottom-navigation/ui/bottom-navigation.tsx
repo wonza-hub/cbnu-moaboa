@@ -12,7 +12,7 @@ const NAV_ITEMS = [
     icon: FileText,
   },
   {
-    label: "스크랩",
+    label: "즐겨찾기",
     href: "/bookmarks",
     icon: Bookmark,
   },
@@ -27,7 +27,7 @@ export function BottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="glass-nav fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around pb-safe">
+    <nav className="pb-safe fixed right-0 bottom-0 left-0 z-50 flex h-16 items-center justify-around bg-white shadow-2xl">
       {NAV_ITEMS.map((item) => {
         const isActive = pathname.startsWith(item.href);
         const Icon = item.icon;
@@ -40,11 +40,14 @@ export function BottomNavigation() {
               "flex flex-col items-center justify-center gap-1 p-2 transition-colors duration-200",
               isActive
                 ? "text-blue-600 dark:text-blue-400"
-                : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+                : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200",
             )}
           >
             <Icon
-              className={cn("h-6 w-6 transition-transform", isActive && "scale-110")}
+              className={cn(
+                "h-6 w-6 transition-transform",
+                isActive && "scale-110",
+              )}
               strokeWidth={isActive ? 2.5 : 2}
             />
             <span className="text-[10px] font-medium">{item.label}</span>
@@ -54,4 +57,3 @@ export function BottomNavigation() {
     </nav>
   );
 }
-
