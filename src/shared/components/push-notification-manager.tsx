@@ -7,7 +7,7 @@ export function PushNotificationManager() {
     if (
       typeof window !== "undefined" &&
       "serviceWorker" in navigator &&
-      window.workbox === undefined
+      (window as unknown as { workbox: unknown }).workbox === undefined
     ) {
       const wb = navigator.serviceWorker;
       wb.register("/sw.js")
