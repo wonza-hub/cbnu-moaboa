@@ -9,6 +9,7 @@ self.addEventListener("push", function (event) {
       data: {
         dateOfArrival: Date.now(),
         primaryKey: "2",
+        url: data.data?.url || "/",
       },
     };
     event.waitUntil(self.registration.showNotification(data.title, options));
@@ -18,5 +19,8 @@ self.addEventListener("push", function (event) {
 self.addEventListener("notificationclick", function (event) {
   console.log("Notification click received.");
   event.notification.close();
-  event.waitUntil(clients.openWindow("https://cbnu-moaboa.vercel.app/notices"));
+
+  const urlToOpen = event.notification.data?.url || "/";
+
+  event.waitUntil(clients.openWindow(urlToOpen));
 });
