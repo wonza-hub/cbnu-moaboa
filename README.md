@@ -1,25 +1,9 @@
-## Getting Started
+## MOABOA, 교내 공지사항 통합 플랫폼
 
-First, run the development server:
+### 서비스 아키텍처
+<p align="center"><img width="568" alt="image" src="https://github.com/user-attachments/assets/97816019-4790-452d-96df-d6fa1d957e38" />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## Project Structure (FSD Architecture)
-
-This project follows the **Feature-Sliced Design (FSD)** architecture adapted for **Next.js App Router**.
-
+### 프로젝트 구조 (Next.js App Router + FSD Architecturer)
 ```
 cbnu-moaboa/
 ├── app/                        # Next.js App Router (Routing Layer)
