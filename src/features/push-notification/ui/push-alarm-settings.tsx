@@ -81,6 +81,11 @@ export function PushAlarmSettings() {
   async function subscribeToPush() {
     setLoading(true);
     try {
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        throw new Error("푸시 알림 권한이 거부되었습니다.");
+      }
+
       const registration = await navigator.serviceWorker.ready;
       const sub = await registration.pushManager.subscribe({
         userVisibleOnly: true,
@@ -88,15 +93,23 @@ export function PushAlarmSettings() {
           process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
         ),
       });
+
+      const success = await saveSubscriptionToDb(sub, []);
+      if (!success) {
+        // DB 저장 실패 시 구독 취소 처리
+        await sub.unsubscribe();
+        throw new Error("서버에 구독 정보를 저장하는데 실패했습니다.");
+      }
+
       setSubscription(sub);
       setIsSubscribed(true);
-
-      await saveSubscriptionToDb(sub, []);
 
       setIsDrawerOpen(true);
     } catch (error) {
       console.error("Failed to subscribe:", error);
-      alert("알림 구독에 실패했습니다. 권한 설정을 확인해주세요.");
+      alert(
+        error instanceof Error ? error.message : "알림 구독에 실패했습니다.",
+      );
       setIsSubscribed(false);
     } finally {
       setLoading(false);

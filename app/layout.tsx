@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/applications/styles/globals.css";
 import ReactQueryProvider from "@/applications/providers/react-query-provider";
+import { PushNotificationManager } from "@/shared/components/push-notification-manager";
 import { BottomNavigation } from "@/widgets/bottom-navigation";
 import { NoticeDetailDrawer } from "@/widgets/notice-detail";
 
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} pb-20 antialiased`}
       >
         <ReactQueryProvider>
+          <PushNotificationManager />
           {children}
           <BottomNavigation />
 
