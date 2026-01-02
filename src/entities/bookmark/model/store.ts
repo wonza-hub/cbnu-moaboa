@@ -1,29 +1,30 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist, createJSONStorage, combine } from "zustand/middleware";
 import { Bookmark } from "./types";
 
-interface BookmarkStore {
+type BookmarkState = {
   bookmarks: Bookmark[];
-  addBookmark: (notice: Bookmark) => void;
-  removeBookmark: (noticeId: string) => void;
-}
+};
 
-export const useBookmarkStore = create<BookmarkStore>()(
+const initialState = {
+  bookmarks: [],
+} as BookmarkState;
+
+export const useBookmarkStore = create(
   persist(
-    (set) => ({
-      bookmarks: [],
-      addBookmark: (notice) =>
+    combine(initialState, (set) => ({
+      addBookmark: (notice: Bookmark) =>
         set((state) => {
           if (state.bookmarks.some((b) => b.noticeId === notice.noticeId)) {
             return state;
           }
           return { bookmarks: [notice, ...state.bookmarks] };
         }),
-      removeBookmark: (noticeId) =>
+      removeBookmark: (noticeId: string) =>
         set((state) => ({
           bookmarks: state.bookmarks.filter((b) => b.noticeId !== noticeId),
         })),
-    }),
+    })),
     {
       name: "bookmark-storage",
       storage: createJSONStorage(() => localStorage),
@@ -31,16 +32,14 @@ export const useBookmarkStore = create<BookmarkStore>()(
   ),
 );
 
-export const useAddBookmark = () => {
-  return useBookmarkStore((state) => state.addBookmark);
-};
-
-export const useRemoveBookmark = () => {
-  return useBookmarkStore((state) => state.removeBookmark);
-};
-
-export const useIsBookmarked = (noticeId: string) => {
-  return useBookmarkStore((state) =>
+// Selectors
+export const useBookmarkList = () =>
+  useBookmarkStore((state) => state.bookmarks);
+export const useAddBookmark = () =>
+  useBookmarkStore((state) => state.addBookmark);
+export const useRemoveBookmark = () =>
+  useBookmarkStore((state) => state.removeBookmark);
+export const useIsBookmarked = (noticeId: string) =>
+  useBookmarkStore((state) =>
     state.bookmarks.some((bookmarkItem) => bookmarkItem.noticeId === noticeId),
   );
-};

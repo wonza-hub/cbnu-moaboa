@@ -1,21 +1,11 @@
 "use client";
 
-import { useBookmarkStore } from "@/entities/bookmark";
+import { useBookmarkList } from "@/entities/bookmark";
 import { NoticeCard } from "@/entities/notice";
 import { ToggleBookmarkButton } from "@/features/bookmark";
-import { useEffect, useState } from "react";
 
 export function BookmarkList() {
-  const bookmarks = useBookmarkStore((state) => state.bookmarks);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
+  const bookmarks = useBookmarkList();
 
   if (bookmarks.length === 0) {
     return (
