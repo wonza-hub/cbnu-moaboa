@@ -151,3 +151,7 @@ body {
     touch-action: manipulation;
   }
 }
+
+.glass-card {
+  @apply border border-white/20 bg-white/60 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-black/60;
+}
