@@ -60,10 +60,10 @@ export default memo(function NoticeCard({
 
   return (
     <div
-      className="glass-card cursor-pointer overflow-hidden rounded-lg"
+      className="glass-card cursor-pointer overflow-hidden rounded-lg h-full flex flex-col"
       onClick={handleClick}
     >
-      <div className="p-5">
+      <div className="p-5 flex flex-col h-full">
         <div className="mb-3 flex items-start justify-between">
           <div className="flex gap-2">
             <span
@@ -80,11 +80,11 @@ export default memo(function NoticeCard({
           {actionSlot && <div className="z-10">{actionSlot}</div>}
         </div>
 
-        <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900">
+        <h3 className="mb-auto line-clamp-2 text-lg font-semibold text-gray-900">
           {notice.title}
         </h3>
 
-        <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
           <span>{DATE_UTILS.formatDate(notice.createdAt)}</span>
         </div>
       </div>
