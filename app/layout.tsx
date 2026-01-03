@@ -6,6 +6,7 @@ import { PushNotificationManager } from "@/shared/components/push-notification-m
 import { BottomNavigation } from "@/widgets/bottom-navigation";
 import { NoticeDetailDrawer } from "@/widgets/notice-detail";
 import { Toaster } from "@/shared/components/ui/sonner";
+import { ThemeProvider } from "@/applications/providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,18 +37,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} pb-20 antialiased`}
       >
         <ReactQueryProvider>
-          <PushNotificationManager />
-          <Toaster />
-          <main>{children}</main>
-          <BottomNavigation />
-
-          {/* 공지사항 상세 Drawer */}
-          <NoticeDetailDrawer />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <PushNotificationManager />
+            <Toaster />
+            <main>{children}</main>
+            <BottomNavigation />
+            <NoticeDetailDrawer />
+          </ThemeProvider>
         </ReactQueryProvider>
       </body>
     </html>
