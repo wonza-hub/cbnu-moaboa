@@ -5,6 +5,7 @@ import ReactQueryProvider from "@/applications/providers/react-query-provider";
 import { PushNotificationManager } from "@/shared/components/push-notification-manager";
 import { BottomNavigation } from "@/widgets/bottom-navigation";
 import { NoticeDetailDrawer } from "@/widgets/notice-detail";
+import { Toaster } from "@/shared/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,8 @@ export default function RootLayout({
       >
         <ReactQueryProvider>
           <PushNotificationManager />
-          {children}
+          <Toaster />
+          <main>{children}</main>
           <BottomNavigation />
 
           {/* 공지사항 상세 Drawer */}
