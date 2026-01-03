@@ -74,7 +74,7 @@ export default function NoticeDetailDrawer() {
               <NoticeDetailSkeleton />
             ) : (
               <>
-                <DrawerHeader className="sticky top-0 z-10 border-b bg-white pb-4">
+                <DrawerHeader className="bg-background sticky top-0 z-10 border-b pb-4">
                   <div className="mb-2 flex items-center justify-between">
                     <div className="flex gap-2">
                       {/* 그룹 배지 */}
@@ -97,25 +97,25 @@ export default function NoticeDetailDrawer() {
                     </div>
 
                     {/* 날짜 */}
-                    <span className="text-sm text-gray-500">
+                    <span className="text-muted-foreground text-sm">
                       {DATE_UTILS.formatDate(drawerContent?.createdAt)}
                     </span>
                   </div>
 
                   {/* 제목 */}
-                  <div className="mt-2 text-lg font-semibold">
+                  <div className="text-foreground mt-2 text-lg font-semibold">
                     {drawerContent?.title}
                   </div>
                 </DrawerHeader>
 
                 {/* 본문 내용 */}
                 <article className="p-6">
-                  <div className="prose mb-8 max-w-none">
+                  <div className="prose dark:prose-invert mb-8 max-w-none">
                     <div
                       dangerouslySetInnerHTML={PARSE_UTILS.renderSafeHTML(
                         drawerContent?.body,
                       )}
-                      className="leading-relaxed text-gray-700"
+                      className="text-foreground leading-relaxed"
                     />
                   </div>
 
@@ -161,11 +161,11 @@ export default function NoticeDetailDrawer() {
           </div>
         </div>
 
-        <DrawerFooter className="sticky bottom-0 border-t bg-white shadow-md">
+        <DrawerFooter className="border-border bg-background sticky bottom-0 border-t shadow-md">
           <DrawerClose asChild>
             <button
               onClick={handleClose}
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+              className="w-full rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
             >
               닫기
             </button>

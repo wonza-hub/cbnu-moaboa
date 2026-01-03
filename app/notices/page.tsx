@@ -27,9 +27,9 @@ export default async function Page({
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 p-2 sm:p-6 lg:p-8">
+      <div className="min-h-screen bg-background p-2 sm:p-6 lg:p-8">
         <main className="mx-auto max-w-7xl">
-          <h1 className="mb-6 hidden text-3xl font-bold text-gray-900">
+          <h1 className="mb-6 hidden text-3xl font-bold text-foreground">
             충북대학교 통합 공지사항
           </h1>
 

@@ -80,11 +80,11 @@ export default memo(function NoticeCard({
           {actionSlot && <div className="z-10">{actionSlot}</div>}
         </div>
 
-        <h3 className="text-md mb-auto line-clamp-2 font-semibold text-gray-900">
+        <h3 className="text-md text-foreground mb-auto line-clamp-2 font-semibold">
           {notice.title}
         </h3>
 
-        <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+        <div className="text-muted-foreground mt-4 flex items-center justify-between text-sm">
           <span>{DATE_UTILS.formatDate(notice.createdAt)}</span>
         </div>
       </div>

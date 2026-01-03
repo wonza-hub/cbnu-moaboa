@@ -1,43 +1,39 @@
+import { Skeleton } from "@/shared/components/ui/skeleton";
+
 /**
  * UI: 공지사항 상세 스켈레톤
  */
 export default function NoticeDetailSkeleton() {
   return (
-    <div className="flex h-full flex-col bg-white">
+    <div className="flex h-full flex-col bg-background">
       {/* Header Tabs Skeleton */}
-      <div className="flex gap-2 border-b p-4">
-        <div className="h-9 w-16 animate-pulse rounded-md bg-gray-200" />
-        <div className="h-9 w-24 animate-pulse rounded-md bg-gray-200" />
-        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
+      <div className="sticky top-0 z-10 border-b border-border bg-background pb-4 pt-6 px-6">
+        <div className="mb-2 flex items-center justify-between">
+          <div className="flex gap-2">
+            <Skeleton className="h-6 w-24 rounded-full" />
+            <Skeleton className="h-6 w-16 rounded-full" />
+          </div>
+          <Skeleton className="h-5 w-28" />
+        </div>
+        <Skeleton className="mt-2 h-7 w-3/4" />
       </div>
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto p-6">
-        {/* Category and Date */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-24 animate-pulse rounded-full bg-gray-200" />
-            <div className="h-6 w-12 animate-pulse rounded bg-gray-200" />
-          </div>
-          <div className="h-5 w-28 animate-pulse rounded bg-gray-200" />
+        <div className="mb-8 space-y-4">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-5/6" />
+          <Skeleton className="h-4 w-full" />
         </div>
-
-        {/* Title */}
-        <div className="mb-6 space-y-2">
-          <div className="h-7 w-full animate-pulse rounded bg-gray-200" />
-          <div className="h-7 w-4/5 animate-pulse rounded bg-gray-200" />
-        </div>
-
-        {/* Subtitle Text */}
-        <div className="mb-6 h-5 w-3/4 animate-pulse rounded bg-gray-200" />
 
         {/* Image Placeholder */}
-        <div className="aspect-[4/5] w-full animate-pulse rounded-lg bg-gray-200" />
+        <Skeleton className="aspect-video w-full rounded-lg" />
       </div>
 
       {/* Bottom Button */}
-      <div className="border-t p-4">
-        <div className="h-12 w-full animate-pulse rounded-lg bg-gray-200" />
+      <div className="sticky bottom-0 border-t border-border bg-background p-4 shadow-md">
+        <Skeleton className="h-10 w-full rounded-md" />
       </div>
     </div>
   );

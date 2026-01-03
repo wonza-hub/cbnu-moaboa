@@ -27,7 +27,7 @@ export function BottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="pb-safe fixed right-0 bottom-0 left-0 z-50 flex h-16 items-center justify-around bg-white shadow-2xl">
+    <nav className="pb-safe bg-background fixed right-0 bottom-0 left-0 z-50 flex h-16 items-center justify-around border-t border-border shadow-2xl transition-colors duration-200">
       {NAV_ITEMS.map((item) => {
         const isActive = pathname.startsWith(item.href);
         const Icon = item.icon;
