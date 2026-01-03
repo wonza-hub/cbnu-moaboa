@@ -9,6 +9,7 @@ import {
   type Bookmark,
 } from "@/entities/bookmark";
 import { Button } from "@/shared/components/ui/button";
+import { toast } from "sonner";
 
 interface ToggleBookmarkButtonProps {
   notice: Bookmark;
@@ -29,8 +30,10 @@ export function ToggleBookmarkButton({
 
     if (isBookmarked) {
       removeBookmark(notice.noticeId);
+      toast.success("즐겨찾기에서 게시물이 제거되었습니다.");
     } else {
       addBookmark(notice);
+      toast.success("즐겨찾기에 게시물이 추가되었습니다.");
     }
   };
 

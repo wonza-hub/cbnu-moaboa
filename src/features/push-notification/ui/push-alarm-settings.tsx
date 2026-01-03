@@ -15,6 +15,7 @@ import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Label } from "@/shared/components/ui/label";
 import { urlBase64ToUint8Array } from "@/shared/lib/utils";
 import { ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 // TODO: 공지사항 그룹 정보를 서버에서 가져오도록 수정해야 함.
 const NOTICE_GROUPS = [
@@ -107,7 +108,7 @@ export function PushAlarmSettings() {
       setIsDrawerOpen(true);
     } catch (error) {
       console.error("Failed to subscribe:", error);
-      alert(
+      toast.error(
         error instanceof Error ? error.message : "알림 구독에 실패했습니다.",
       );
       setIsSubscribed(false);
@@ -130,9 +131,10 @@ export function PushAlarmSettings() {
       setSubscription(null);
       setIsSubscribed(false);
       setSelectedGroups([]);
+      toast.success("구독이 취소되었습니다.");
     } catch (error) {
       console.error("Failed to unsubscribe:", error);
-      alert("구독 취소 중 오류가 발생했습니다.");
+      toast.error("구독 취소 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
@@ -159,16 +161,16 @@ export function PushAlarmSettings() {
   async function handleConfirmGroups() {
     if (!subscription) return;
     if (selectedGroups.length === 0) {
-      alert("최소 1개 이상의 그룹을 선택해주세요.");
+      toast.error("최소 1개 이상의 그룹을 선택해주세요.");
       return;
     }
 
     const success = await saveSubscriptionToDb(subscription, selectedGroups);
     if (success) {
       setIsDrawerOpen(false);
-      // alert("구독 그룹이 저장되었습니다."); // Optional feedback
+      toast.success("구독 그룹이 저장되었습니다.");
     } else {
-      alert("저장에 실패했습니다.");
+      toast.error("저장에 실패했습니다.");
     }
   }
 
