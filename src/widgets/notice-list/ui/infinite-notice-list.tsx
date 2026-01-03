@@ -58,8 +58,6 @@ export default function InfiniteNoticeList({
           : undefined;
       },
       initialPageParam: 1,
-      staleTime: 1000 * 60 * 60, // 1시간 동안 데이터를 fresh 상태로 유지
-      gcTime: 1000 * 60 * 60 * 24, // 24시간 동안 캐시 유지
     });
 
   useEffect(() => {
@@ -74,7 +72,7 @@ export default function InfiniteNoticeList({
   if (allNotices.length === 0) {
     return (
       <div className="glass-card rounded-lg p-8 text-center">
-        <p className="text-lg text-muted-foreground">
+        <p className="text-muted-foreground text-lg">
           공지사항이 없습니다. 다른 필터를 선택해보세요.
         </p>
       </div>
@@ -101,7 +99,7 @@ export default function InfiniteNoticeList({
           {isFetchingNextPage ? (
             <div className="flex flex-col items-center">
               <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-b-2 border-blue-500"></div>
-              <p className="mt-2 text-muted-foreground">더 불러오는 중...</p>
+              <p className="text-muted-foreground mt-2">더 불러오는 중...</p>
             </div>
           ) : (
             <p className="text-muted-foreground">스크롤하여 더 보기</p>
