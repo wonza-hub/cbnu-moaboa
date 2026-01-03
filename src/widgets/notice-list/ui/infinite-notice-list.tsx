@@ -84,7 +84,7 @@ export default function InfiniteNoticeList({
       {/* 공지사항 목록 */}
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {allNotices.map((notice: INoticeRowData, index) => (
-          <div key={`${notice.noticeId}-${index}`}>
+          <div key={`${notice.noticeId}-${index}`} className="h-full">
             <NoticeCard
               notice={notice}
               actionSlot={<ToggleBookmarkButton notice={notice} />}
