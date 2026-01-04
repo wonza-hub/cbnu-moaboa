@@ -17,6 +17,13 @@ import Image from "next/image";
 import { PARSE_UTILS } from "@/shared/utils/parse";
 import { useNoticeDetailDrawerStore } from "@/shared/stores/use-notice-detail-drawer-store";
 import { NoticeDetailSkeleton } from "@/widgets/notice-detail";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/shared/components/ui/carousel";
 
 // 카테고리 색상 가져오기
 const getCategoryColor = (category: string) => {
@@ -120,24 +127,38 @@ export default function NoticeDetailDrawer() {
                   </div>
 
                   {/* 이미지 처리 */}
-                  {drawerContent?.imageUrls && (
-                    <div className="mb-8">
-                      <h3 className="mb-4 hidden text-lg font-semibold">
-                        첨부 이미지
-                      </h3>
-                      {drawerContent?.imageUrls.map((url, idx) => (
-                        <div key={idx} className="relative aspect-video">
-                          <Image
-                            className="object-contain"
-                            src={url}
-                            alt={`첨부 이미지`}
-                            width={800}
-                            height={600}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  {drawerContent?.imageUrls &&
+                    drawerContent.imageUrls.length > 0 && (
+                      <div className="mb-8">
+                        <h3 className="mb-4 hidden text-lg font-semibold">
+                          첨부 이미지
+                        </h3>
+                        <Carousel className="w-full">
+                          <CarouselContent>
+                            {drawerContent.imageUrls.map((url, idx) => (
+                              <CarouselItem key={idx}>
+                                <div className="bg-muted relative w-full overflow-hidden rounded-lg">
+                                  <Image
+                                    className="h-auto w-full object-contain"
+                                    src={url}
+                                    alt={`첨부 이미지 ${idx + 1}`}
+                                    width={0}
+                                    height={0}
+                                    sizes="100vw"
+                                  />
+                                </div>
+                              </CarouselItem>
+                            ))}
+                          </CarouselContent>
+                          {drawerContent.imageUrls.length > 1 && (
+                            <>
+                              <CarouselPrevious className="bg-background/80 hover:bg-background left-2" />
+                              <CarouselNext className="bg-background/80 hover:bg-background right-2" />
+                            </>
+                          )}
+                        </Carousel>
+                      </div>
+                    )}
 
                   {/* 테이블 */}
                   {drawerContent?.tables && (
