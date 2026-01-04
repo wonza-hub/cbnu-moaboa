@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  /* config options here */
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
 // export default pwaConfig(nextConfig);
