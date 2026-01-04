@@ -1,17 +1,31 @@
-import { Metadata } from "next";
 import { NoticeFilter, InfiniteNoticeList } from "@/widgets/notice-list";
 import { Suspense } from "react";
 import { NoticeCardSkeleton } from "@/entities/notice";
 
-export const metadata: Metadata = {
-  title: "충북대학교 통합 공지사항",
-  description: "충북대학교의 다양한 공지사항을 한 곳에서 확인하세요.",
-  openGraph: {
-    title: "충북대학교 통합 공지사항",
-    description: "충북대학교의 다양한 공지사항을 한 곳에서 확인하세요.",
-    images: ["/thumbnail.png"],
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: { noticeGroup?: string };
+}) {
+  const noticeGroup = params.noticeGroup;
+  const title = noticeGroup
+    ? `${noticeGroup} 공지사항`
+    : "충북대학교 통합 공지사항";
+  const description = noticeGroup
+    ? `${noticeGroup} 공지사항을 한 곳에서 확인하세요.`
+    : "충북대학교의 다양한 공지사항을 한 곳에서 확인하세요.";
+  const images = ["/thumbnail.webp"];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images,
+    },
+  };
+}
 
 export default async function Page({
   searchParams,
@@ -27,9 +41,9 @@ export default async function Page({
 
   return (
     <>
-      <div className="min-h-screen bg-background p-2 sm:p-6 lg:p-8">
+      <div className="bg-background min-h-screen p-2 sm:p-6 lg:p-8">
         <main className="mx-auto max-w-7xl">
-          <h1 className="mb-6 hidden text-3xl font-bold text-foreground">
+          <h1 className="text-foreground mb-6 hidden text-3xl font-bold">
             충북대학교 통합 공지사항
           </h1>
 

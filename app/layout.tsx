@@ -26,6 +26,11 @@ export const metadata: Metadata = {
   title: "충북대학교 통합 공지사항",
   description: "충북대학교 통합 공지사항",
   manifest: "/manifest.json",
+  openGraph: {
+    title: "충북대학교 통합 공지사항",
+    description: "충북대학교의 다양한 공지사항을 한 곳에서 확인하세요.",
+    images: ["/thumbnail.webp"],
+  },
 };
 
 export default function RootLayout({
