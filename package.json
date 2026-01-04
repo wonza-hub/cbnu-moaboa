@@ -23,6 +23,7 @@
     "@types/web-push": "^3.6.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
     "google-auth-library": "^9.15.1",
     "google-spreadsheet": "^4.1.4",
     "lucide-react": "^0.546.0",
