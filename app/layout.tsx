@@ -4,6 +4,7 @@ import ReactQueryProvider from "@/applications/providers/react-query-provider";
 import { PushNotificationManager } from "@/shared/components/push-notification-manager";
 import { BottomNavigation } from "@/widgets/bottom-navigation";
 import { NoticeDetailDrawer } from "@/widgets/notice-detail";
+import { PwaInstallPrompt } from "@/widgets/pwa-install-guide";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { ThemeProvider } from "@/applications/providers/theme-provider";
 import localFont from "next/font/local";
@@ -46,6 +47,7 @@ export default function RootLayout({
             <PushNotificationManager />
             <Toaster />
             <main>{children}</main>
+            <PwaInstallPrompt />
             <BottomNavigation />
             <NoticeDetailDrawer />
           </ThemeProvider>
